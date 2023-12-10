@@ -6,5 +6,21 @@
 </head>
 <body>
 
+<h2>Legg til oppgave</h2>
+<form id="oppgaveSkjema">
+    <label for="tittel">Tittel:</label>
+    <input type="text" id="tittel" name="tittel" required>
+
+    <label for="beskrivelse">Beskrivelse:</label>
+    <textarea id="beskrivelse" name="beskrivelse" rows="4" required></textarea>
+
+    <button type="button" onclick="leggTilOppgave()">Legg til oppgave</button>
+</form>
+
+<h2>Oppgaver</h2>
+<ul id="oppgaveListe">
+    <!-- Oppgavene blir lagt til her dynamisk med jQuery -->
+</ul>
+
 </body>
 </html>
