@@ -2,7 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgaveadministrasjon</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,5 +36,41 @@
     <!-- Oppgavene blir lagt til her dynamisk med jQuery -->
 </ul>
 
+<script>
+    function leggTilOppgave() {
+        var tittel = $("#tittel").val();
+        var beskrivelse = $("#beskrivelse").val();
+
+        // Legg til oppgave i listen
+        $("#oppgaveListe").append("<li><strong>" + tittel + "</strong><br>" + beskrivelse + "</li>");
+
+        // Legg også til oppgaven i backend (Java)
+        $.ajax({
+            type: "POST",
+            url: "/legg-til-oppgave",  // Endre dette til din backend-endepunkt
+            data: { tittel: tittel, beskrivelse: beskrivelse },
+            success: function(response) {
+                console.log(response);
+            }
+        });
+
+        // Tøm skjemaet
+        $("#tittel").val("");
+        $("#beskrivelse").val("");
+    }
+
+    // Hent oppgaver fra backend og vis dem i listen ved lasting av siden
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "/hent-alle-oppgaver",  // Endre dette til din backend-endepunkt
+            success: function(oppgaver) {
+                for (var i = 0; i < oppgaver.length; i++) {
+                    $("#oppgaveListe").append("<li><strong>" + oppgaver[i].tittel + "</strong><br>" + oppgaver[i].beskrivelse + "</li>");
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>
